@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #fileInput {
+            display: none;
+        }
+        .button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        #status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        progress {
+            width: 100%;
+            margin: 10px 0;
+        }
+        #audioControls {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .room-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .room-controls input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .link-container {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        .link-container input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .link-container .button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebRTC chat</h1>
+    <div id="connectionStatus" style="position: fixed; top: 10px; right: 10px; padding: 5px 10px; border-radius: 4px;">
+    </div>
+    <div>
+        <input type="text" id="peerName" placeholder="Enter your name (optional)">
+    </div>
+    <div class="room-controls" id="room-controls">
+        <div class="create-room-button" id="create-room-button">
+            <button onclick="createRoom()" class="button">Create Room</button>
+        </div>
+        
+        <div id="linkContainer" class="link-container">
+            <p>Share this link with others to join the room:</p>
+            <input type="text" id="roomLink" readonly>
+            <button onclick="copyRoomLink()" class="button">Copy Link</button>
+        </div>
+    </div>
+    <div class="join-room" id="join-room" style="display: none;">
+        <!-- <input type="text" id="roomId" placeholder="Enter room ID"> -->
+        <button onclick="joinRoomBtn()" class="button">Join Room</button>
+    </div>
+    <div>
+        <input type="file" id="fileInput" accept="*">
+        <button onclick="document.getElementById('fileInput').click()" class="button">Select File</button>
+        <button onclick="sendFile()" class="button">Send File</button>
+    </div>
+    <div id="status"></div>
+    <progress id="progress" max="100" value="0" style="display: none;"></progress>
+    <div id="audioControls" style="display: none;">
+        <audio id="audioPlayer" controls></audio>
+    </div>
+
+    <div id="groupCallControls">
+        <div id="participantsList"></div>
+        <button onclick="leaveRoom()" class="button">Leave Room</button>
+    </div>
+    
+    <style>
+        #groupCallControls {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        #participantsList {
+            margin-bottom: 15px;
+        }
+        
+        .participant {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <script src="config.js"></script>
+    <script src="ws.js"></script>
+    <script src="rtc.js"></script>
+    <script src="data_channel.js"></script>
+    <script src="status.js"></script>
+    <script src="room.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
