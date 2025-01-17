@@ -1,20 +1,18 @@
-FROM golang:1.22-alpine
+FROM python:3.10-slim
 
-# Add git for downloading dependencies
-RUN apk add --no-cache git
 WORKDIR /app
 
-# Copy go mod and sum files
-COPY go.mod go.sum ./
-RUN go mod download
+COPY requirements.txt .
 
-COPY . ./
-COPY static/ static/
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN ls
+COPY . .
 
-RUN go build -o main cmd/main.go
+RUN mkdir -p static
 
 EXPOSE 8080
 
-CMD ["./main"]
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8080
+
+CMD ["python", "server.py"]
