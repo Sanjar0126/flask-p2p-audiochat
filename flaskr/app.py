@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import os
 import sys
 from .ws_handlers import SignalingServer
+import requests
 
 from gevent.pywsgi import WSGIServer
 
@@ -38,6 +39,9 @@ def create_app(test_config=None):
 
     @app.route('/rooms')
     def get_rooms():
+        # delay = 1
+        # resp = requests.get(f'http://localhost:8000/?delay={delay}')
+
         rooms_data = {
             room_name: {
                 "peers": list(room.peers.keys()), 
